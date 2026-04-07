@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智稳双全 — 汽车智能减振器行业技术深度剖析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* 基础样式与动画 */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .fade-in { animation: fadeIn 0.8s ease-in-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 核心图表容器规范 */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container { height: 280px; }
+        }
+
+        /* 交互卡片悬浮效果 */
+        .tech-card { transition: all 0.3s ease; border: 1px solid transparent; }
+        .tech-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); border-color: #3b82f6; }
+        
+        .tab-active { border-bottom: 2px solid #2563eb; color: #2563eb; font-weight: 600; }
+
+        /* AI Loading 动画 */
+        .ai-loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* AI 报告样式 */
+        .ai-report-content h4 { font-weight: bold; color: #1e293b; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .ai-report-content ul { list-style-type: disc; padding-left: 1.5rem; color: #475569; margin-bottom: 1rem; font-size: 0.875rem;}
+        .ai-report-content p { color: #475569; font-size: 0.875rem; margin-bottom: 0.5rem; }
+        .ai-report-content strong { color: #0f172a; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl font-bold text-blue-600">🛡️ 智稳双全</span>
+                    <span class="text-sm text-slate-500 hidden md:block pl-2 border-l border-slate-300">行业技术调研看板</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#overview" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">行业演进</a>
+                    <a href="#tech-analysis" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">CDC技术剖析</a>
+                    <a href="#diagnosis" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">自诊断系统</a>
+                    <a href="#ai-pitch" class="text-blue-600 font-medium transition-colors flex items-center">✨ AI路演</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-slate-900 to-slate-800 text-white py-20 relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-12 opacity-10 text-9xl">🚘</div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 flex items-center flex-wrap gap-3">
+                汽车智能减振器行业技术深度剖析
+            </h1>
+            <p class="text-xl text-slate-300 max-w-3xl leading-relaxed mb-8">
+                基于《智稳双全—汽车智能减振器及自诊断系统》项目，探究悬架技术的演进之路。重点对比当前主流的 <b>CDC (连续阻尼控制)</b> 技术与本项目核心的 <b>MR (磁流变液)</b> 技术，揭示下一代智能底盘的发展趋势。
+            </p>
+            <div class="flex space-x-4">
+                <a href="#tech-analysis" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    开始技术对比 ➔
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <!-- Section 1: Industry Overview -->
+        <section id="overview" class="fade-in scroll-mt-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4">减振器行业技术演进路径</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">从被动妥协到主动适应，汽车悬架技术正经历着从机械化向电子化、智能化的深刻变革。</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-slate-200 -z-10 transform -translate-y-1/2"></div>
+                
+                <!-- 阶段1 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 tech-card">
+                    <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-2xl mb-4 shadow-inner">⚙️</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">1. 被动悬架 (过去)</h3>
+                    <p class="text-sm text-slate-600 mb-4">传统的液压减振器。阻尼力由固定的机械阀片决定，出厂即定型。</p>
+                    <ul class="text-sm text-slate-500 space-y-1">
+                        <li>✔️ 成本极低，结构简单</li>
+                        <li>❌ 无法兼顾舒适性与操控性</li>
+                    </ul>
+                </div>
+
+                <!-- 阶段2 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border-2 border-slate-200 tech-card relative">
+                    <div class="absolute -top-3 right-4 bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded">当前主流</div>
+                    <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-2xl mb-4 shadow-inner text-blue-600">⚡</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">2. 半主动悬架 (CDC)</h3>
+                    <p class="text-sm text-slate-600 mb-4">通过电磁阀调节减振器内部油液流通截面积，实现阻尼力的无级调节。</p>
+                    <ul class="text-sm text-slate-500 space-y-1">
+                        <li>✔️ 较好地平衡舒适与运动</li>
+                        <li>⚠️ 响应速度仍受限于机械阀体</li>
+                    </ul>
+                </div>
+
+                <!-- 阶段3 -->
+                <div class="bg-gradient-to-br from-blue-600 to-blue-800 p-6 rounded-xl shadow-lg tech-card transform md:-translate-y-2 text-white relative">
+                     <div class="absolute -top-3 right-4 bg-yellow-400 text-slate-900 text-xs font-bold px-2 py-1 rounded">项目核心</div>
+                    <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl mb-4 backdrop-blur-sm">🧲</div>
+                    <h3 class="text-xl font-bold text-white mb-2">3. 智能悬架 (MR磁流变)</h3>
+                    <p class="text-sm text-blue-100 mb-4">利用磁流变液在磁场下瞬间变稠的特性，改变阻尼，无机械阀片运动。</p>
+                    <ul class="text-sm text-blue-100 space-y-1">
+                        <li>✔️ 毫秒级极速响应</li>
+                        <li>✔️ 动态范围广，结构更可靠</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Technical Deep Dive (CDC vs MR) -->
+        <section id="tech-analysis" class="fade-in bg-white rounded-2xl shadow-sm border border-slate-200 p-8 scroll-mt-24">
+            <div class="mb-10 border-b border-slate-200 pb-6">
+                <h2 class="text-3xl font-bold text-slate-800 mb-3">核心技术调研：CDC与MR减振器对比</h2>
+                <p class="text-slate-600">
+                    CDC（Continuous Damping Control）是目前中高端车型的标配，而磁流变（Magnetorheological, MR）技术代表着更高的性能上限。本项目《智稳双全》正是基于MR技术进行创新。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                <div class="flex flex-col h-full">
+                    <h3 class="text-lg font-semibold text-center text-slate-700 mb-6">综合性能维度雷达图</h3>
+                    <div class="flex-grow flex items-center justify-center bg-slate-50 rounded-xl p-4 border border-slate-100">
+                        <div class="chart-container">
+                            <canvas id="techRadarChart"></canvas>
+                        </div>
+                    </div>
+                    <p class="text-xs text-center text-slate-400 mt-4">注：数值越大代表该维度表现越好（成本维度已做倒置处理，数值大代表成本低/优势大）。</p>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-700 mb-6">技术特性深度解析</h3>
+                    <div class="flex space-x-6 border-b border-slate-200 mb-6" id="techTabs">
+                        <button class="pb-2 text-lg focus:outline-none tab-active" onclick="switchTab('cdc')">CDC 减振器 (行业现状)</button>
+                        <button class="pb-2 text-lg focus:outline-none text-slate-500 hover:text-slate-700" onclick="switchTab('mr')">MR 磁流变 (本项目)</button>
+                    </div>
+
+                    <div id="content-cdc" class="space-y-6">
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                            <h4 class="font-bold text-slate-800 flex items-center mb-3"><span class="text-green-500 mr-2">➕</span> CDC的优点</h4>
+                            <ul class="list-disc list-inside text-slate-600 space-y-2 text-sm leading-relaxed">
+                                <li><b>技术成熟，供应链完善：</b> 经过多年发展，博世、采埃孚等巨头技术成熟，已下放至十几万的车型。</li>
+                                <li><b>性能提升明显：</b> 根据路况实时（约几十毫秒）调节电磁阀，兼顾运动与舒适。</li>
+                                <li><b>结构相对可靠：</b> 虽有机械运动部件，但耐久度满足一般家用车需求。</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-5 rounded-lg border border-red-100">
+                            <h4 class="font-bold text-red-800 flex items-center mb-3"><span class="text-red-500 mr-2">➖</span> CDC的痛点</h4>
+                            <ul class="list-disc list-inside text-red-700 space-y-2 text-sm leading-relaxed">
+                                <li><b>响应速度存在物理极限：</b> 机械动作的延迟使得其响应时间最快也在数十毫秒级别，高频震动过滤不够极致。</li>
+                                <li><b>阻尼调节范围受限：</b> 阀门开度有极限，难以在极端赛道和极致舒适间完美切换。</li>
+                                <li><b>存在机械磨损：</b> 长期频繁的阀芯运动会产生机械磨损，导致阻尼控制精度随时间下降。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="content-mr" class="space-y-6 hidden">
+                        <div class="bg-blue-50 p-5 rounded-lg border border-blue-200">
+                            <h4 class="font-bold text-blue-800 flex items-center mb-3"><span class="text-blue-500 mr-2">➕</span> MR磁流变液的优势</h4>
+                            <ul class="list-disc list-inside text-blue-900 space-y-2 text-sm leading-relaxed">
+                                <li><b>极速响应 (无级瞬变)：</b> 无机械阀片运动，响应速度是CDC的10倍以上（几毫秒内）。</li>
+                                <li><b>超宽阻尼调节范围：</b> 阻尼力变化范围极大，路面贴服性极佳。</li>
+                                <li><b>结构简化与高寿命：</b> 内部无复杂运动阀组，理论上机械磨损极小，性能衰减极慢。</li>
+                            </ul>
+                        </div>
+                        <div class="bg-orange-50 p-5 rounded-lg border border-orange-100">
+                            <h4 class="font-bold text-orange-800 flex items-center mb-3"><span class="text-orange-500 mr-2">➖</span> MR的挑战</h4>
+                            <ul class="list-disc list-inside text-orange-700 space-y-2 text-sm leading-relaxed">
+                                <li><b>成本高昂：</b> 传统多用于百万级豪车。（本项目核心突破点：自主研发配方降低成本）。</li>
+                                <li><b>密封与沉降问题：</b> 对密封件要求极高，容易出现漏液失效。</li>
+                                <li><b>控制算法复杂度：</b> 需要极其强大的自适应算法才能精准控制其非线性特征。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Project Specific Feature - Self Diagnosis with AI -->
+        <section id="diagnosis" class="fade-in bg-slate-900 rounded-2xl p-8 text-white relative overflow-hidden scroll-mt-24">
+            <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, #cbd5e1 0, #cbd5e1 1px, transparent 0, transparent 50%); background-size: 20px 20px;"></div>
+            <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="inline-block px-3 py-1 bg-blue-500 text-xs font-bold uppercase tracking-wider rounded-full">项目创新亮点</span>
+                        <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold uppercase tracking-wider rounded-full flex items-center gap-1">✨ 已接入 AI 引擎</span>
+                    </div>
+                    
+                    <h2 class="text-3xl font-bold mb-4">不仅智能调节，更能"自诊断"</h2>
+                    <p class="text-slate-300 mb-6 leading-relaxed">
+                        基于文档提取的风险控制理念，本项目的一大核心差异化在于集成了<b>智能自诊断系统</b>。传统减振器损坏往往需要人工主观感受，而本系统通过传感器与算法闭环，并在云端接入 <b>大语言模型（LLM）</b> 进行深度故障剖析。
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="bg-slate-800 p-2 rounded mr-4 text-blue-400">📊</span>
+                            <div>
+                                <strong class="block text-blue-200">工况实时监测</strong>
+                                <span class="text-sm text-slate-400">实时监测电流、位移、温度等数据，构建数字孪生模型。</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-slate-800 p-2 rounded mr-4 text-purple-400">✨</span>
+                            <div>
+                                <strong class="block text-purple-200">AI 赋能故障深研</strong>
+                                <span class="text-sm text-slate-400">在检测到系统异常（如漏液初期、线圈过热）时，调用 AI 引擎生成运维级诊断报告。</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 模拟诊断仪表盘交互 -->
+                <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 shadow-2xl flex flex-col h-full">
+                    <h3 class="text-center font-mono text-sm text-slate-400 mb-4 flex items-center justify-center gap-2">
+                        <span>系统状态实时监控仪</span>
+                    </h3>
+                    <div class="space-y-4 flex-grow">
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span>左前轮阻尼响应时间</span>
+                                <span id="diag-time-val" class="text-green-400 font-mono transition-colors">5 ms (极佳)</span>
+                            </div>
+                            <div class="w-full bg-slate-700 rounded-full h-2">
+                                <div id="diag-time-bar" class="bg-green-500 h-2 rounded-full transition-all duration-500" style="width: 15%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span>线圈温度/磁流变活跃度</span>
+                                <span id="diag-active-val" class="text-blue-400 font-mono transition-colors">98% (正常)</span>
+                            </div>
+                            <div class="w-full bg-slate-700 rounded-full h-2">
+                                <div id="diag-active-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: 98%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 flex justify-center">
+                            <button id="btn-simulate" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white text-sm px-5 py-2.5 rounded-lg shadow transition-colors active:scale-95 w-full font-medium">
+                                模拟极端路况冲击 🔄
+                            </button>
+                        </div>
+                        
+                        <!-- 警报框 -->
+                        <div id="diag-alert" class="hidden mt-4 bg-red-900/40 border border-red-500/50 text-red-200 text-xs p-4 rounded-lg font-mono">
+                            <div class="mb-3 font-bold text-red-400 flex items-center gap-2">
+                                <span class="animate-pulse">⚠️</span> [系统告警] 检测到异常
+                            </div>
+                            检测到连续高频高强度冲击，响应延迟增至80ms，活跃度120%超载。系统已触发保护机制，限制阻尼输出。
+                            <div class="mt-4 pt-3 border-t border-red-800/50">
+                                <button id="btn-ai-diag" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white px-4 py-2 rounded shadow-lg transition-all font-sans font-bold flex items-center justify-center gap-2 active:scale-95">
+                                    <span>✨ 生成 AI 深度诊断报告</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Modal for Diagnosis Report -->
+        <div id="ai-diag-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col transform scale-95 transition-transform duration-300" id="ai-diag-modal-content">
+                <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-gradient-to-r from-slate-50 to-white">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <span class="text-purple-600">✨</span> 智稳双全 AI 诊断中心
+                    </h3>
+                    <button id="btn-close-modal" class="text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+                </div>
+                <div class="p-6 overflow-y-auto max-h-[60vh] bg-slate-50" id="ai-diag-result">
+                    <div class="flex flex-col items-center justify-center py-12 text-slate-500" id="ai-diag-loading">
+                        <div class="ai-loader mb-4"></div>
+                        <p class="text-sm font-medium animate-pulse">Gemini 大模型正在进行深度故障剖析...</p>
+                    </div>
+                    <div id="ai-diag-text" class="ai-report-content hidden"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Market & New AI Pitch Feature -->
+        <section id="ai-pitch" class="fade-in grid grid-cols-1 md:grid-cols-2 gap-6 scroll-mt-24">
+            
+            <!-- Left: Market Context -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col">
+                <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                    <span class="mr-2 text-2xl">📈</span> 市场预期与战略
+                </h3>
+                <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                    依据项目报告，智能底盘是新能源汽车下半场核心。本项目采取“先深耕川渝本土，再辐射核心区域”的市场策略。
+                </p>
+                <div class="flex-grow flex items-center justify-center">
+                    <div class="chart-container" style="height: 220px; width: 100%;">
+                        <canvas id="marketChart"></canvas>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-400 mt-2 text-center">国内自主品牌智能悬架渗透率预测</p>
+            </div>
+
+            <!-- Right: AI Pitch Assistant -->
+            <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-6 rounded-xl border border-purple-100 shadow-sm relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 text-9xl opacity-5">✨</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                    <span class="text-purple-600">✨</span> AI 商业路演助手
+                </h3>
+                <p class="text-sm text-slate-600 mb-5">
+                    商业落地是关键。请选择沟通对象，让 Gemini AI 结合本项目“MR技术+自诊断闭环”的优势，生成定制化的一分钟电梯路演（Elevator Pitch）话术。
+                </p>
+
+                <div class="space-y-4 relative z-10">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">目标沟通对象：</label>
+                        <select id="pitch-audience" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block p-2.5 outline-none transition-shadow">
+                            <option value="专注硬科技和汽车产业链的风险投资人(VC)">风险投资人 (关注技术壁垒与回报)</option>
+                            <option value="国内头部新能源汽车主机厂采购/技术总监">汽车主机厂 (关注成本控制与装车效果)</option>
+                            <option value="追求极致驾驶体验的终端消费者(车主)">终端消费者 (关注舒适度与操控感)</option>
+                        </select>
+                    </div>
+                    
+                    <button id="btn-generate-pitch" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 px-4 rounded-lg shadow transition-colors active:scale-95 flex justify-center items-center gap-2">
+                        <span>生成专属路演话术</span>
+                    </button>
+
+                    <div id="pitch-result-container" class="mt-4 bg-white/80 backdrop-blur border border-purple-100 rounded-lg p-4 min-h-[120px] hidden">
+                         <div class="flex flex-col items-center justify-center h-full text-purple-400 hidden" id="pitch-loading">
+                            <div class="ai-loader mb-2 border-t-purple-600 border-x-purple-200 border-b-purple-200"></div>
+                            <span class="text-xs">文案生成中...</span>
+                        </div>
+                        <div id="pitch-text" class="text-sm text-slate-700 leading-relaxed italic"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm border-t border-slate-800">
+        <p>基于《智稳双全—汽车智能减振器及自诊断系统》商业计划书内容进行的技术分析架构展示</p>
+        <p class="mt-2 flex justify-center items-center gap-2">
+            <span>Powered by</span> <strong class="text-slate-300">Gemini 2.5 API</strong> ✨
+        </p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Gemini API Setup ---
+        const apiKey = ""; // API Key injected by environment
+        const model = "gemini-2.5-flash-preview-09-2025";
+
+        // Generic async function with exponential backoff for Gemini API
+        async function callGeminiAPI(prompt, systemInstruction) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+
+            let delay = 1000;
+            let retries = 5;
+
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "抱歉，AI 暂时无法生成内容。";
+                } catch (error) {
+                    console.error(`Gemini API call failed (Attempt ${i + 1}):`, error);
+                    if (i === retries - 1) return "<p class='text-red-500'>服务连接超时，请检查网络或稍后重试。</p>";
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // --- Core UI & Chart Logic ---
+        function switchTab(tabId) {
+            const tabs = document.querySelectorAll('#techTabs button');
+            tabs.forEach(tab => {
+                tab.classList.remove('tab-active');
+                tab.classList.add('text-slate-500');
+            });
+            event.target.classList.add('tab-active');
+            event.target.classList.remove('text-slate-500');
+
+            document.getElementById('content-cdc').classList.add('hidden');
+            document.getElementById('content-mr').classList.add('hidden');
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Radar Chart
+            const radarCtx = document.getElementById('techRadarChart').getContext('2d');
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['响应速度', '阻尼调节范围', '结构可靠性(寿命)', '控制精度', '成本优势(倒置)'],
+                    datasets: [
+                        {
+                            label: 'MR 磁流变 (智稳双全)',
+                            data: [100, 95, 85, 95, 40],
+                            fill: true,
+                            backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                            borderColor: 'rgb(37, 99, 235)',
+                            pointBackgroundColor: 'rgb(37, 99, 235)'
+                        },
+                        {
+                            label: 'CDC 连续阻尼控制',
+                            data: [70, 75, 80, 80, 75],
+                            fill: true,
+                            backgroundColor: 'rgba(100, 116, 139, 0.2)',
+                            borderColor: 'rgb(100, 116, 139)',
+                            pointBackgroundColor: 'rgb(100, 116, 139)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { r: { ticks: { display: false, min: 0, max: 100 } } }
+                }
+            });
+
+            // 2. Bar Chart
+            const marketCtx = document.getElementById('marketChart').getContext('2d');
+            new Chart(marketCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2023', '2024', '2025E', '2026E', '2027E'],
+                    datasets: [{
+                        label: '智能悬架搭载率(%)',
+                        data: [15, 22, 35, 48, 65],
+                        backgroundColor: 'rgba(147, 51, 234, 0.6)', // Purple hue
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, max: 100 } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // --- Simulation & AI Diagnosis Logic ---
+            const btnSimulate = document.getElementById('btn-simulate');
+            const alertBox = document.getElementById('diag-alert');
+            const btnAiDiag = document.getElementById('btn-ai-diag');
+            const modal = document.getElementById('ai-diag-modal');
+            const modalContent = document.getElementById('ai-diag-modal-content');
+            const btnCloseModal = document.getElementById('btn-close-modal');
+            const aiDiagLoading = document.getElementById('ai-diag-loading');
+            const aiDiagText = document.getElementById('ai-diag-text');
+            
+            // Simulation
+            btnSimulate.addEventListener('click', () => {
+                // UI Changes to simulate fault
+                document.getElementById('diag-time-bar').style.width = '100%';
+                document.getElementById('diag-time-bar').className = 'bg-red-500 h-2 rounded-full transition-all duration-500';
+                document.getElementById('diag-time-val').textContent = '80 ms (严重延迟)';
+                document.getElementById('diag-time-val').className = 'text-red-400 font-mono';
+                
+                document.getElementById('diag-active-bar').style.width = '100%';
+                document.getElementById('diag-active-bar').className = 'bg-orange-500 h-2 rounded-full transition-all duration-500';
+                document.getElementById('diag-active-val').textContent = '120% (过热告警)';
+                document.getElementById('diag-active-val').className = 'text-orange-400 font-mono';
+                
+                btnSimulate.disabled = true;
+                btnSimulate.textContent = "系统已进入保护状态";
+                btnSimulate.classList.add('opacity-50', 'cursor-not-allowed');
+
+                setTimeout(() => {
+                    alertBox.classList.remove('hidden');
+                    alertBox.classList.add('fade-in');
+                }, 800);
+            });
+
+            // Close Modal logic
+            function closeModal() {
+                modal.classList.remove('opacity-100');
+                modalContent.classList.remove('scale-100');
+                setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
+            }
+            btnCloseModal.addEventListener('click', closeModal);
+
+            // AI Diagnosis Call
+            btnAiDiag.addEventListener('click', async () => {
+                // Open Modal
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                // Trigger animation frame
+                setTimeout(() => {
+                    modal.classList.add('opacity-100');
+                    modalContent.classList.add('scale-100');
+                }, 10);
+
+                aiDiagLoading.classList.remove('hidden');
+                aiDiagText.classList.add('hidden');
+                aiDiagText.innerHTML = '';
+
+                const prompt = `系统刚刚检测到：连续高频高强度冲击。当前传感器数据：左前轮阻尼响应时间延长至80ms（标准为5ms，表明负荷过高），磁流变液线圈活跃度达120%（存在过热风险）。系统目前已自动进入保护机制，限制最大阻尼力在80%。请针对此工况进行诊断。`;
+                
+                const systemInst = `你是一个高级汽车底盘AI诊断专家，深度了解“智稳双全”MR磁流变减振器项目（利用磁场改变磁流变液稠度来调节阻尼）。
+                请结合上述传感器数据，输出一份专业的诊断报告。
+                要求包含以下结构：
+                <h4>1. 故障机理动态分析</h4>解释为何连续高频冲击会导致MR减振器响应延迟和线圈过热。
+                <h4>2. 潜在安全隐患</h4>如果系统没有“自诊断保护机制”，这种状态继续发展会导致什么后果？
+                <h4>3. 智能运维建议</h4>向车主/维保中心提供下一步的建议。
+                返回直接可用的HTML格式片段，使用<p>, <ul>, <li>, <strong>等标签。不要包含 markdown 代码块包裹，不要包含外部结构，直接输出内部标签。`;
+
+                const resultHtml = await callGeminiAPI(prompt, systemInst);
+                
+                aiDiagLoading.classList.add('hidden');
+                // Clean up possible markdown wrappers if AI ignores instruction
+                let cleanHtml = resultHtml.replace(/^```html\n?/, '').replace(/\n?```$/, '');
+                aiDiagText.innerHTML = cleanHtml;
+                aiDiagText.classList.remove('hidden');
+                aiDiagText.classList.add('fade-in');
+            });
+
+            // --- AI Pitch Logic ---
+            const btnGeneratePitch = document.getElementById('btn-generate-pitch');
+            const pitchResultContainer = document.getElementById('pitch-result-container');
+            const pitchLoading = document.getElementById('pitch-loading');
+            const pitchText = document.getElementById('pitch-text');
+            const pitchAudience = document.getElementById('pitch-audience');
+
+            btnGeneratePitch.addEventListener('click', async () => {
+                const audience = pitchAudience.value;
+                
+                pitchResultContainer.classList.remove('hidden');
+                pitchLoading.classList.remove('hidden');
+                pitchText.classList.add('hidden');
+                btnGeneratePitch.disabled = true;
+                btnGeneratePitch.classList.add('opacity-70');
+
+                const prompt = `请为“智稳双全—汽车智能减振器及自诊断系统”生成一段针对【${audience}】的一分钟口语化电梯路演（Elevator Pitch）。`;
+                
+                const systemInst = `你是一个商业BP路演专家。项目背景：
+                项目名称：“智稳双全”。
+                核心技术：MR磁流变液智能减振器。相比传统CDC，它响应极快（几毫秒，无机械阀门），阻尼调节范围极宽。
+                核心创新点：集成了智能自诊断系统，能通过传感器和算法实现工况实时监测和故障预警（事中管控风险）。
+                商业模式与市场规划：致力于打破核心配方垄断降低成本。采取“先深耕川渝本土市场，打造盈利样板，再辐射核心区域”的市场策略，规避价格战。
+                
+                要求：
+                1. 语气要有感染力、自信，符合口语交流习惯。
+                2. 针对指定受众（${audience}）的痛点，重点突出他们关心的价值（如投资人看重壁垒和商业模式，主机厂看重成本和技术亮点，消费者看重体验和安全）。
+                3. 字数控制在150-200字之间。
+                4. 请直接返回纯文本内容，可以通过使用加粗(使用HTML的<strong>标签)突出重点，适当加入一两个emoji增加生动性。`;
+
+                const result = await callGeminiAPI(prompt, systemInst);
+                
+                pitchLoading.classList.add('hidden');
+                pitchText.innerHTML = result;
+                pitchText.classList.remove('hidden');
+                pitchText.classList.add('fade-in');
+                btnGeneratePitch.disabled = false;
+                btnGeneratePitch.classList.remove('opacity-70');
+            });
+        });
+    </script>
+</body>
+</html>
