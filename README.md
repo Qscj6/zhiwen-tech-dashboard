@@ -4,7 +4,7 @@
 
 ## 🎯 快速訪問
 
-- **🖥️ 線上互動展示 (Web Demo)**: https://github.com/Qscj6/zhiwen-tech-dashboard/](https://Qscj6.github.io/zhiwen-tech-dashboard/
+- **🖥️ 線上互動展示 (Web Demo)**: https://Qscj6.github.io/zhiwen-tech-dashboard/
   > 包含 CDC 與 MR 技術的動態對比雷達圖，以及「AI 預警與自診斷系統」的互動模擬。
 
 - **📄 深度技術調研報告 (PDF)**: [點擊此處下載或閱讀報告](./docs/intelligent_suspension_report.pdf)
