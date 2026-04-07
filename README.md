@@ -7,7 +7,7 @@
 - **🖥️ 線上互動展示 (Web Demo)**: https://Qscj6.github.io/zhiwen-tech-dashboard/
   > 包含 CDC 與 MR 技術的動態對比雷達圖，以及「AI 預警與自診斷系統」的互動模擬。
 
-- **📄 深度技術調研報告 (PDF)**: [點擊此處下載或閱讀報告](./docs/intelligent_suspension_report.pdf)
+- **📄 深度技术调研报告 (PDF)**: [点击此处下载或阅读报告](./docs/减震器行业技术调研报告.pdf)
   > 詳細拆解多孔泡沫金屬、磁流變物理機制及 PHM 演算法的底層邏輯。
 
 ## 📁 倉庫結構指南
